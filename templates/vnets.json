@@ -1,0 +1,42 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetIPRange": {
+      "defaultValue": [
+        "10.0.0.0/16",
+        "10.2.0.0/16",
+        "10.3.0.0/16"
+      ],
+      "type": "Array"
+    },
+    "vnetName": {
+      "defaultValue": [
+        "vnet1",
+        "vnet2",
+        "vnet3"
+      ],
+      "type": "Array"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2019-02-01",
+      "name": "[parameters('vnetName')[copyIndex()]]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetIPRange')[copyIndex()]]"
+          ]
+        }
+      },
+      "copy": {
+        "name": "vnetLoop",
+        "count": "[length(parameters('vnetName'))]",
+        "mode": "serial"
+      }
+    }
+  ]
+}
