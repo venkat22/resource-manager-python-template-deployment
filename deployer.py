@@ -25,7 +25,7 @@ class Deployer(object):
         self.client = ResourceManagementClient(self.credentials, self.subscription_id)
         self.subclient = SubscriptionClient(self.credentials)
 
-    def deploy(self, template):
+    def deployAtResourceGroupScope(self, template):
         """Deploy the template to a resource group."""
         template_path = os.path.join(os.path.dirname(__file__), 'templates', template)
         with open(template_path, 'r') as template_file_fd:
@@ -53,7 +53,10 @@ class Deployer(object):
 
 
 
-    def deployResourceGroup(self, template):
+    def deployAtSubscriptionScope(self, template):
+        template_path = os.path.join(os.path.dirname(__file__), 'templates', template)
+        with open(template_path, 'r') as template_file_fd:
+            template = json.load(template_file_fd)
         parameters = {
         }
         parameters = {k: {'value': v} for k, v in parameters.items()}
@@ -64,7 +67,8 @@ class Deployer(object):
         }
         self.client.deployments.create_or_update_at_subscription_scope(
             'azuresample',
-            deployment_properties
+            deployment_properties,
+            location="eastus"
         )
 
 
