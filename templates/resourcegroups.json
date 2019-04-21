@@ -1,0 +1,35 @@
+{
+   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.1",
+    "parameters": {
+        "rgName": {
+            "defaultValue": [
+                "resourcegroup1",
+                "resourcegroup2",
+                "resourcegroup3",
+                "resourcegroup4"
+            ],
+            "type": "Array"
+        },
+        "rgLocation": {
+            "type": "string",
+             "defaultValue": "eastus"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2018-05-01",
+            "location": "[parameters('rgLocation')]",
+            "name": "[parameters('rgName')[copyIndex()]]",
+            "copy": {
+                "name": "rgCopy",
+                "count": "[length(parameters('rgName'))]",
+                 "mode": "serial"
+            },
+            "properties": {}
+        }
+    ],
+    "outputs": {}
+}

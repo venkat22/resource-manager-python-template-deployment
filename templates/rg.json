@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.1",
+    "parameters": {
+        "rgName": {
+            "defaultValue": "TestGroup",
+            "type": "String"
+        },
+        "rgLocation": {
+            "defaultValue": "eastus",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2018-05-01",
+            "name": "[parameters('rgName')]",
+            "location": "[parameters('rgLocation')]",
+            "properties": {}
+        }
+    ],
+    "outputs": {}
+}
